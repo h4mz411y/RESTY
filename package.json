@@ -1,0 +1,25 @@
+{
+  "name": "resty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile:sass": "sass ./style.scss ./style.css -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h4mz411y/RESTY.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/h4mz411y/RESTY/issues"
+  },
+  "homepage": "https://github.com/h4mz411y/RESTY#readme",
+  "dependencies": {
+    "saas": "^1.0.0",
+    "sass": "^1.54.3"
+  }
+}
