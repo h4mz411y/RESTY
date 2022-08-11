@@ -1,6 +1,7 @@
 import React from 'react';
+import { useState } from 'react';
 
-import './app.scss';
+import './app.css';
 
 // Let's talk about using index.js and some other name in the component folder
 // There's pros and cons for each way of doing this ...
@@ -8,48 +9,42 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
-import Pic from './components/pic';
 
-class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
+
+
+function App() {
+
+  const [request, setrequest] = useState({
+    data: null,
+    requestParams: {},
+  });
+
+
+  async function callApi(requestParams) {
+    while (requestParams.method === 'GET') {
+      const response = await fetch(requestParams.url);
+      const data = await response.json();
+      setrequest({ request, data: data, requestParams: requestParams });
+    }
+
+
+
+
   }
 
-  callApi = (requestParams) => {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
-    };
-    this.setState({data, requestParams});
-  }
 
-  render() {
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
-        <Form handleApiCall={this.callApi} />
-        <Results data={this.state.data} />
+  return (
+    <React.Fragment>
+      <Header />
+      <h3 >URL: {request.requestParams.url}</h3>
+      <Form handleApiCall={callApi} />
+      <Results data={request.data} />
 
-        <Pic/>
-
-        <Footer />
-      </React.Fragment>
-    );
-  }
+      <Footer />
+    </React.Fragment>
+  );
 }
 
+
 export default App;
-
-
-
