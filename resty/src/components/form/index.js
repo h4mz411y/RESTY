@@ -1,16 +1,9 @@
 import React from 'react';
 
-import './form.scss';
-
-
-
-
-
+import './form.css';
 
 
 export default function Form(props) {
-
-
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -21,18 +14,10 @@ export default function Form(props) {
         props.handleApiCall(formData);
     }
 
-
-
     return (
 
-
-
-
-
-
-
         <div>
-            <form onSubmit={handleSubmit}>
+            <form className = "form"onSubmit={handleSubmit}>
                 <label >
                     <span>URL: </span>
                     <input name='url' type='text' />
