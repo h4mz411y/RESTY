@@ -1,7 +1,8 @@
 {
   "name": "resty",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -37,5 +38,12 @@
   },
   "devDependencies": {
     "sass": "^1.54.3"
-  }
+  },
+  "keywords": [],
+"author": "",
+"license": "ISC"
 }
+
+
+ 
+
