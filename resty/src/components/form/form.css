@@ -1,10 +1,10 @@
 
-
-
 form {
   display: inline-block;
-  margin: 0px;
+  margin-top: 50px;
+  
   width: 200px;
+ 
   
 
   
@@ -14,6 +14,7 @@ form {
   label {
     display: flex;
     margin: 1rem 0;
+   
   
   }
 
@@ -23,6 +24,7 @@ form {
         margin-right: 1rem;
         padding: .25rem .5rem;
         background: rgb(102, 101, 101);
+        
       }
 
       #put {
@@ -50,6 +52,7 @@ form {
 
         .hover{background-color: rgb(188, 63, 63);} 
         .active {
-          background-color: rgb(188, 63, 63); 
+          background-color: rgb(188, 63, 63);
+           
         }
       

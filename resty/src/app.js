@@ -1,45 +1,35 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-import './app.css';
-
-// Let's talk about using index.js and some other name in the component folder
-// There's pros and cons for each way of doing this ...
-import Header from './components/header';
-import Footer from './components/footer';
-import Form from './components/form';
-import Results from './components/results';
-
-
-
+import Header from './components/header/index';
+import Footer from './components/footer/index';
+import Form from './components/form/index';
+import Results from './components/results/index';
+import './app.css'
 
 function App() {
 
-  const [request, setrequest] = useState({
+  const [user, setUser] = useState({
     data: null,
     requestParams: {},
   });
 
-
   async function callApi(requestParams) {
-    while (requestParams.method === 'GET') {
+    if (requestParams.method === 'GET') {
       const response = await fetch(requestParams.url);
       const data = await response.json();
-      setrequest({ request, data: data, requestParams: requestParams });
+
+      if (requestParams) {
+        setUser({ user, data: data, requestParams: requestParams });
+      }
     }
-
-
-
-
   }
-
-
   return (
     <React.Fragment>
       <Header />
-      <h3 >URL: {request.requestParams.url}</h3>
+      <div data-testid='request'>Request Method:{user.requestParams.method}</div>
+      <div data-testid='url'>URL: {user.requestParams.url}</div>
       <Form handleApiCall={callApi} />
-      <Results data={request.data} />
+      <Results data={user.data} />
 
       <Footer />
     </React.Fragment>
