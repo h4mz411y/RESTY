@@ -4,7 +4,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import App from "../app";
 
-test("load and display app", async () => {
+test("display", async () => {
   render(<App />);
   const methoddiv = await waitFor(() => screen.getByTestId("request"));
   const urldiv = await waitFor(() => screen.getByTestId("url"));
@@ -12,7 +12,7 @@ test("load and display app", async () => {
   expect(methoddiv.textContent).toBe("Request Method:");
   expect(urldiv).toHaveTextContent("URL:");
 });
-test("test form tags  ", async () => {
+test("form", async () => {
   render(<App />);
 
   const spanText = await waitFor(() => screen.getByTestId("span-url"));
