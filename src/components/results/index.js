@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-import './result.css' ; 
+
 
 
 function Results(props) {
