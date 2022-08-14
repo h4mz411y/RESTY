@@ -1,40 +1,60 @@
-import React from "react";
-import { useState } from "react";
-import "./form.css";
+import React, { useState } from 'react'
+import './form.css'
 
 function Form(props) {
-    const [url, seturl] = useState('');
-    const [APImethod, setAPImethod] = useState('');
+  const [click, setClick] = useState('GET');
+  const [url, setUrl] = useState('');
+  const [body, setBody] = useState('');
 
-    let API = {
-        url: url,
-        method: APImethod,
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
 
-        props.handleApiCall(API);
+  const handleSubmit = e => {
+    e.preventDefault();
+    const formData = {
+      method: click,
+      url: url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     };
+    const bodyData = {
+      body: body,
+    };
+    props.handleApiCall(formData, bodyData);
+  }
 
-    return (
-        <div>
+  const handelClick = e => {
+    e.preventDefault();
+    setClick(e.target.value);
+  }
+  const handelUrl = e => {
+    e.preventDefault();
+    setUrl(e.target.value);
+  }
+  const handleBody = e => {
+    e.preventDefault();
+    setBody(e.target.value);
+  }
 
-            <form className="form" onSubmit={handleSubmit}>
-                <label>
-
-                    <span data-testid='span-url'>URL: </span>
-                    <input onChange={(e) => { seturl(e.target.value) }} name="url" type="text" />
-                    <button type="submit">GO!</button>
-                </label>
-                <label className="methods">
-                    <button data-testid='get' onClick={(e) => { setAPImethod('GET') }} id="get">GET</button>
-                    <button data-testid='post' onClick={(e) => { setAPImethod('POST') }} id="post">POST</button>
-                    <button data-testid='put' onClick={(e) => { setAPImethod('PUT') }} id="put">PUT</button>
-                    <button data-testid='delete' onClick={(e) => { setAPImethod('DELETE') }} id="delete">DELETE</button>
-                </label>
-            </form>
-        </div>
-    );
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <label className='label-input'>
+          <span>URL: </span>
+          <input name='url' type='text' className='input' placeholder='Inter a URL' data-testid='input' onChange={handelUrl} />
+          <button type="submit" className='btn' data-testid='submit'>GO!</button>
+        </label>
+        <label className="methods">
+          <div className='btns'>
+            <button id="get" data-testid='get' onClick={handelClick} value='GET'>GET</button>
+            <button id="post" data-testid='post' onClick={handelClick} value='POST'>POST</button>
+            <button id="put" data-testid='put' onClick={handelClick} value='PUT'>PUT</button>
+            <button id="delete" onClick={handelClick} value='DELETE'>DELETE</button>
+          </div>
+        </label>
+        {click === 'POST' || click === 'PUT' ? <textarea onChange={handleBody} /> : null}
+      </form>
+    </>
+  )
 }
 
 export default Form;

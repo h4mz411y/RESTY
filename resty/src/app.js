@@ -5,36 +5,37 @@ import Footer from './components/footer/index';
 import Form from './components/form/index';
 import Results from './components/results/index';
 import './app.css'
-
 function App() {
+  const [data, setData] = useState(null);
+  const [reqParams, setReqParams] = useState({});
+  const [bodyData, setBodyData] = useState({});
+  const [headers, setHeaders] = useState({});
 
-  const [user, setUser] = useState({
-    data: null,
-    requestParams: {},
-  });
-
-  async function callApi(requestParams) {
-    if (requestParams.method === 'GET') {
-      const response = await fetch(requestParams.url);
-      const data = await response.json();
-
-      if (requestParams) {
-        setUser({ user, data: data, requestParams: requestParams });
-      }
-    }
+  const callApi = async (reqParams, bodyParams) => {
+    const response = await fetch(reqParams.url);
+    const data = await response.json();
+    setData(data);
+    setReqParams(reqParams);
+    const body = {
+      body: bodyParams.body,
+    };
+    const headers = {
+      headers: reqParams.headers,
+    };
+    console.log('headers', headers);
+    setBodyData(body);
+    setHeaders(headers);
   }
   return (
-    <React.Fragment>
+    <>
       <Header />
-      <div data-testid='request'>Request Method:{user.requestParams.method}</div>
-      <div data-testid='url'>URL: {user.requestParams.url}</div>
+      <div className='url'>URL: {reqParams.url}</div>
+      <div className='req'>Request Method: {reqParams.method}</div>
       <Form handleApiCall={callApi} />
-      <Results data={user.data} />
-
+      <Results data={data} method={reqParams.method} bodyData={bodyData} headers={headers} />
       <Footer />
-    </React.Fragment>
-  );
+    </>
+  )
 }
 
-
-export default App;
+export default App
