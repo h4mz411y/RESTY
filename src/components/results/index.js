@@ -5,17 +5,23 @@ import React from 'react'
 
 
 function Results(props) {
-
+  let body = props.bodyData.body;
+  let headers = props.headers.headers;
   return (
     <section data-testid='results'>
       <div className='content'>
-        <div className="header">
-        <pre>{props.headers ? JSON.stringify(props.headers.headers, undefined, 2) : null}</pre>
-        </div>
-        <br />
-        {
-          <pre>{props.data ? JSON.stringify(props.data, undefined, 2) : null}</pre>
-        }
+        <pre className="header">
+          {props.method === 'GET' ? headers : null}
+        </pre>
+        <pre className="body">
+          {
+            props.method === 'GET' ? props.Response
+              : props.method === 'POST' ? body : 
+              props.method === 'PUT' ? body : 
+              props.method === 'DELETE' ? 'deleted successfully'
+              : <div className='loader'></div>
+          }
+        </pre>
       </div>
     </section>
   )
