@@ -1,57 +1,71 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useReducer, useState } from 'react';
+import History from './components/history/index';
+import "./app.css";
 import Header from './components/header/index';
 import Footer from './components/footer/index';
 import Form from './components/form/index';
 import Results from './components/results/index';
-import './app.css'
 
+import DataReducer, { addData, removeUrl, emptyAction } from "./reducer";
+
+const initState = {
+  url: [],
+  data: [],
+  count: 0
+}
 function App() {
-  const [data, setData] = useState(null);
-  const [reqParams, setReqParams] = useState({});
-  const [bodyData, setBodyData] = useState({});
-  const [headers, setHeaders] = useState({});
+  const [apiData, dispatch] = useReducer(DataReducer, initState)
 
-  useEffect(() => {
-    if (data || reqParams || bodyData || headers) {
-      setReqParams(reqParams);
-      setBodyData(bodyData);
-      setHeaders(headers);
-      setData(data);
+  const [user, setUser] = useState({
+    data: null,
+    requestParams: {},
+  });
+
+
+  async function callApi(requestParams) {
+    if (requestParams.method === "GET") {
+      const response = await fetch(requestParams.url);
+      var data = await response.json();
+
+      data.url = requestParams.url
+      dispatch(addData(data))
+
+      if (requestParams) {
+        setUser({ user, data: data, requestParams: requestParams });
+      }
     }
-    return () => {
-      setData(null);
-      setReqParams({});
-      setBodyData({});
-      setHeaders({});
-    };
-  }, [data, reqParams, bodyData, headers]);
 
-  const callApi = async (reqParams, bodyParams) => {
-    const response = await fetch(reqParams.url);
-    const data = await response.json();
-    const record = "Response: " + JSON.stringify(data, null, 2);
-    setData(record);
-    setReqParams(reqParams);
-    const body = {
-      body: bodyParams.body,
-    };
-    const headers = {
-      headers: reqParams.headers,
-    };
-    setBodyData(body);
-    setHeaders(headers);
   }
+  console.log(apiData.url);
   return (
-    <>
+    <React.Fragment>
       <Header />
-      <div className='url'>URL: {reqParams.url}</div>
-      <div className='req'>Request Method: {reqParams.method}</div>
+      <div data-testid="request">
+        Request Method:{user.requestParams.method}
+      </div>
+
+      <div data-testid="url">URL: {user.requestParams.url}</div>
+
+      <ul>
+        {
+          apiData.url.map((url, idx) => {
+            return (
+              <>
+
+                <li key={idx} onClick={() => dispatch(removeUrl(idx))} >{url} <span id="delete">delete</span> </li>
+              </>
+
+            )
+          })
+        }
+      </ul>
+      <button id="clear" onClick={() => dispatch(emptyAction())}>Clear All</button>
       <Form handleApiCall={callApi} />
-      <Results Response={data} method={reqParams.method} bodyData={bodyData} headers={headers} />
+      <Results data={user.data} />
+
       <Footer />
-    </>
-  )
+    </React.Fragment>
+  );
 }
 
-export default App
+export default App;
